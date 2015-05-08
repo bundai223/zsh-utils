@@ -58,3 +58,5 @@ show_allfile_on_finder() {
         echo "    show_allfile_on_finder [on|off]"
     fi
 }
+
+alias compile_plantuml="java -jar ~/local/bin/plantuml.jar  -charset UTF-8 -tsvg -nbthread auto $<"
