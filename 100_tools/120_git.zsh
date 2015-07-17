@@ -23,6 +23,7 @@ git_stash_revert()
     #git stash show ${@} -p | git apply -R
 }
 
+# 指定のユーザ名のリポジトリをpullする
 git_pullall() {
     if [ $# -eq 0 ]; then
         echo "usage"
