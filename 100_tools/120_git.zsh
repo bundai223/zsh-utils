@@ -1,7 +1,7 @@
 # git
 
 # Generate .gitignore
-gen_gitignore() {
+git_gen_ignore() {
     curl https://www.gitignore.io/api/$@
 }
 

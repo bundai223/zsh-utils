@@ -1,3 +1,20 @@
+
+# 数値の合計
+sum() {
+  if [ -p /dev/stdin ]; then
+    args=$(cat -)
+  else
+    args=$*
+  fi
+
+  _num=0
+  for i in $args; do
+    _num=$((_num+$i))
+  done
+  echo $_num
+}
+
+
 ls_sshhost() {
     awk '
         tolower($1)=="host" {

@@ -13,6 +13,10 @@ peco_ssh() {
     ssh $(ls_sshhost | peco)
 }
 
+peco_history() {
+    $(history -E 1 | peco)
+}
+
 peco_gitmodified() {
     git status --short | peco | sed s/"^..."//
 }
