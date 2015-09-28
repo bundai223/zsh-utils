@@ -4,23 +4,26 @@
 # tmux起動
 tmux_start()
 {
-  session=$1
-  if [ -z "$TMUX" -a -z "$STY" ]; then
-    if type tmuxx >/dev/null 2>&1; then
-      tmuxx
-    elif type tmux >/dev/null 2>&1; then
-      if tmux has-session && tmux list-sessions | /usr/bin/grep -qE '.*]$'; then
-        tmux attach && echo "tmux attached session "
-      else
-        msg="tmux created new session"
-        if [ -z "$session" ]; then
-          tmux new-session && echo $msg
-        else
-          tmux new-session -s $session && echo $msg
-        fi
-      fi
-    elif type screen >/dev/null 2>&1; then
-      screen -rx || screen -D -RR
+  if ! type tmux >/dev/null 2>&1; then
+    echo 'Error: tmux command not found' 2>&1
+    exit 1
+  fi
+
+  if [ -n "$TMUX" ]; then
+    echo "Error: tmux session has been already attached" 2>&1
+    exit 1
+  fi
+
+  if tmux has-session >/dev/null 2>&1 && tmux list-sessions | grep -qE '.*]$'; then
+    # detached session exists
+    tmux attach && echo "tmux attached session "
+  else
+    if [[ ( $OSTYPE == darwin* ) && ( -x $(which reattach-to-user-namespace 2>/dev/null) ) ]]; then
+      # on OS X force tmux's default command to spawn a shell in the user's namespace
+      tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
+      tmux -f <(echo "$tmux_config") new-session $* && echo "tmux created new session supported OS X"
+    else
+      tmux new-session $* && echo "tmux created new session"
     fi
   fi
 }
@@ -30,8 +33,10 @@ tmux_multissh()
   session=multi-ssh-`date +%s`
   window=multi-ssh
 
-  tmux_start $session
-  tmux rename-window $window
+  if [ -z "$TMUX" ]; then
+    tmux_start -d -n $window -s $session
+  fi
+#   tmux rename-window $window
 
   ### 各ホストにsshログイン
   # 最初の1台はsshするだけ
@@ -56,7 +61,6 @@ tmux_multissh()
   ### paneの同期モードを設定
   tmux set-window-option synchronize-panes on
 
-  ### セッションにアタッチ
-  tmux attach-session -t $session
+  tmux attach -t $session
 }
 
