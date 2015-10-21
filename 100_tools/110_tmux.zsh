@@ -52,8 +52,8 @@ tmux_multissh()
   for i in $*;do
     tmux split-window
     tmux send-keys "ssh $i" C-m
+    tmux select-layout $layout
   done
-  tmux select-layout $layout
 
   ### 最初のpaneを選択状態にする
   tmux select-pane -t 0
