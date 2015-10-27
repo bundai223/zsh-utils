@@ -23,6 +23,7 @@ peco_gitmodified() {
 
 # http://k0kubun.hatenablog.com/entry/2014/07/06/033336
 alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'
+alias -g BALL='`git branch -a | peco | sed -e "s/^\*[ ]*//g"`'
 alias -g T='`git tag | peco`'
 alias -g C='`git log --oneline | peco | cut -d" " -f1`'
 alias -g CALL='`git log --oneline --branches | peco | cut -d" " -f1`'
