@@ -49,7 +49,7 @@ os_version() {
     else
         for file in $VERSION_FILE_ARRAY; do
             if [ -e $file ]; then
-                cat $file; exit
+                cat $file; break
             fi
         done
     fi

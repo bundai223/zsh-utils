@@ -6,6 +6,7 @@ git_gen_ignore() {
 }
 
 # Remove non tracked file.(like tortoiseSVN)
+# Equal 'git clean -f'
 git_rm_untrackedfile()
 {
     git status --short|grep '^??'|sed 's/^...//'|xargs rm -r

@@ -6,12 +6,12 @@ tmux_start()
 {
   if ! type tmux >/dev/null 2>&1; then
     echo 'Error: tmux command not found' 2>&1
-    exit 1
+    return 1
   fi
 
   if [ -n "$TMUX" ]; then
     echo "Error: tmux session has been already attached" 2>&1
-    exit 1
+    return 1
   fi
 
   if tmux has-session >/dev/null 2>&1 && tmux list-sessions | grep -qE '.*]$'; then
