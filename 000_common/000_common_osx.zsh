@@ -4,7 +4,7 @@ refresh_memory()
 }
 
 install_font() {
-    cp $1 ~/Library/Fonts/
+    cp $@ ~/Library/Fonts/
 }
 
 show_allfile_on_finder() {
