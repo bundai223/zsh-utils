@@ -55,12 +55,22 @@ os_version() {
     fi
 }
 
-# Displayの製造元を表示
-# LP : LG製（はずれ）
-# LSN : Samsung製（当たり）
-display_info_15inch()
-{
-    ioreg -lw0 | grep \"EDID\" | sed "/[^<]*</s///" | xxd -p -r | strings -6
+# tmux上でsshした際に対象のホスト名に応じてpaneの色を変える
+ssh() {
+  # tmux起動時
+  if [[ -n $(printenv TMUX) ]] ; then
+    # 接続先ホスト名に応じて背景色を切り替え
+    if [[ `echo $1 | grep '\.production\.'` ]] ; then
+      tmux select-pane -P 'bg=blue'
+    elif [[ `echo $1 | grep '\.dev\.'` ]] ; then
+      tmux select-pane -P 'bg=red'
+    fi
+    # 通常通りssh続行
+    command ssh $@
+    # デフォルトの背景色に戻す
+    tmux select-pane -P 'default'
+
+  else
+    command ssh $@
+  fi
 }
-
-

@@ -1,3 +1,11 @@
+# Displayの製造元を表示
+# LP : LG製（はずれ）
+# LSN : Samsung製（当たり）
+display_info_15inch()
+{
+    ioreg -lw0 | grep \"EDID\" | sed "/[^<]*</s///" | xxd -p -r | strings -6
+}
+
 refresh_memory()
 {
     du -sx / &> /dev/null & sleep 25 && kill $!
