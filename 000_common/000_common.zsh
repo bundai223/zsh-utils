@@ -62,14 +62,17 @@ ssh() {
     h=$1
     # 接続先ホスト名に応じて背景色を切り替え
     if [[ `echo $h | grep 'prod-'` ]] ; then
-      tmux select-pane -P 'fg=white'
-      tmux select-pane -P 'bg=blue'
+      tmux select-pane -P 'fg=red'
+      # tmux select-pane -P 'fg=white'
+      # tmux select-pane -P 'bg=blue'
     elif [[ `echo $h | grep 'dev-'` ]] ; then
-      tmux select-pane -P 'fg=white'
-      tmux select-pane -P 'bg=blue'
+      tmux select-pane -P 'fg=red'
+      # tmux select-pane -P 'fg=white'
+      # tmux select-pane -P 'bg=blue'
     elif [[ `echo $h | sed 's/^.*@//g' | grep '[0-9.]*'` ]] ; then
-      tmux select-pane -P 'fg=white'
-      tmux select-pane -P 'bg=green'
+      tmux select-pane -P 'fg=red'
+      # tmux select-pane -P 'fg=white'
+      # tmux select-pane -P 'bg=green'
     fi
     # 通常通りssh続行
     command ssh $@
