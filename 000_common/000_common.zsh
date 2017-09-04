@@ -66,11 +66,9 @@ ssh() {
       # tmux select-pane -P 'fg=white'
       # tmux select-pane -P 'bg=blue'
     elif [[ `echo $h | grep 'dev-'` ]] ; then
-      tmux select-pane -P 'fg=red'
-      # tmux select-pane -P 'fg=white'
-      # tmux select-pane -P 'bg=blue'
+      tmux select-pane -P 'fg=yellow'
     elif [[ `echo $h | sed 's/^.*@//g' | grep '[0-9.]*'` ]] ; then
-      tmux select-pane -P 'fg=red'
+      tmux select-pane -P 'fg=green'
       # tmux select-pane -P 'fg=white'
       # tmux select-pane -P 'bg=green'
     fi
