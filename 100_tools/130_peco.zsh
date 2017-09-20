@@ -2,23 +2,23 @@
 
 # cd git repository
 cd_repos() {
-    cd $(ghq list -p | peco)
+  cd $(ghq list -p | peco)
 }
 
 peco_find_ext() {
-    find . -name '*.'$1 | peco
+  find . -name '*.'$1 | peco
 }
 
 peco_ssh() {
-    ssh $(ls_sshhost | peco)
+  ssh $(ls_sshhost | peco)
 }
 
 peco_history() {
-    $(history -E 1 | peco)
+  history -E 1 | peco | awk '{c="";for(i=4;i<=NF;i++) c=c $i" "; print c}'
 }
 
 peco_gitmodified() {
-    git status --short | peco | sed s/"^..."//
+  git status --short | peco | sed s/"^..."//
 }
 
 # http://k0kubun.hatenablog.com/entry/2014/07/06/033336
@@ -35,3 +35,4 @@ alias -g R='`git reflog | peco | cut -d" " -f1`'
 # alias -g V='`vagrant box list | peco | cut -d" " -f1`'
 #
 alias -g TM='`tmux list-sessions`'
+alias -g HIST='`peco_history`'
