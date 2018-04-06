@@ -25,7 +25,8 @@ git_stash_revert()
 }
 
 # 指定のユーザ名のリポジトリをpullする
-git_pullall() {
+git_pull_all()
+{
     if [ $# -eq 0 ]; then
         echo "usage"
         echo " git_pullall [username]"
@@ -54,4 +55,14 @@ git_pullall() {
     cd $CURDIR
 }
 
-
+git_status_all()
+{
+  CURDIR=`pwd`
+  for dir in $(ls -l | grep '^d' | awk '{print $10}'); do
+    cd $dir
+    git fetch
+    linenum=$(git status --short | wc -l)
+    test $linenum -eq 0 || echo $dir $linenum
+    cd $CURDIR
+  done
+}
