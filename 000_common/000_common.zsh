@@ -27,7 +27,7 @@ ls_sshhost() {
 ' ~/.ssh/config | sort
 }
 
-listup_ip() {
+ls_ip() {
   LANG=C ifconfig | grep 'inet ' | awk '{print $2;}' | cut -d: -f2
   #LANG=C ifconfig | grep 'inet addr' | awk '{print $2;}' | cut -d: -f2
 }
@@ -81,3 +81,13 @@ ssh() {
     command ssh $@
   fi
 }
+
+# mkdir & cd newdir.
+function mkcddir() {
+  eval dirpath=$"$#"
+  mkdir ${@} && cd $dirpath
+}
+
+function grepall() { git ls-files | xargs grep -l $1 }
+function sedall()  { grepall $1 | xargs sed -i "s/$1/$2/g" }
+function renameall() { git ls-files | grep $1 | while read LINE; do mv $LINE `echo $LINE | sed s/$1/$2/g`; done }
