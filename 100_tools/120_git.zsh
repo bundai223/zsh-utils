@@ -51,7 +51,7 @@ git_pull_all()
 git_status_all()
 {
   CURDIR=`pwd`
-  for dir in $(ls -l | grep '^d' | awk '{print $10}'); do
+  for dir in $(ls -l | grep '^d' | awk '{print $(NF)}'); do
   cd $dir
   git fetch
   linenum=$(git status --short | wc -l)
