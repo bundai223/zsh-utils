@@ -33,18 +33,21 @@ git_pull_all()
     cd $repo
     hostname=$(basename $(cd ../..;pwd))
     reposname=$(basename $(pwd))
-    echo "==== $hostname:$username/$reposname ===="
-    git pull --rebase
+    echo "$hostname:$username/$reposname"
+    git pull --rebase 1>/dev/null 2>&1
     if [ $? -ne 0 ]; then
       ERROR_LIST=(${ERROR_LIST[@]} $hostname:$username/$reposname)
     fi
   done
 
-  echo
-  echo "==== error repositories ===="
-  for error_repo in $ERROR_LIST; do
-    echo $error_repo
-  done
+  if [ ${#ERROR_LIST[@]} -eq 0 ]; then
+  else
+    echo
+    echo "==== error repositories ===="
+    for error_repo in $ERROR_LIST; do
+      echo $error_repo
+    done
+  fi
   cd $CURDIR
 }
 
